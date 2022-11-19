@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
 
   },
 title:{
-   fontSize: 20,
+   fontSize: 24,
    fontWeight:"bold",
   
 
