@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
 import { Colors } from "react-native/Libraries/NewAppScreen";
+import colors from "../../constants/colors";
 
 export const styles = StyleSheet.create({
 
@@ -15,21 +16,19 @@ export const styles = StyleSheet.create({
         paddingVertical:20,
     },
     inputContainer:{
+        
         justifyContent:"center",
         alignItems:"center",
         marginHorizontal: 20,
+        paddingVertical:20,
+        
     },
     input:{
         width:"100%",
-        borderBottomColor:"#495057",
-        borderBottomWidth:1,
         minWidth:70,
         fontSize:22,
         paddingVertical:10,
-        textAlign:"center"
-
-
-
+        textAlign:"center",
     },
     buttonContainer:{
         flexDirection:"row",
@@ -41,6 +40,6 @@ export const styles = StyleSheet.create({
         fontSize:15,
         paddingVertical:5,
         textAlign:"center",
-        color:"#495057"
+        color:colors.primary,
     }
 })
