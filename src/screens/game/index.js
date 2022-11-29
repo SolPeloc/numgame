@@ -1,5 +1,5 @@
-import React,{useState} from "react";
-import { View,Text, Button } from "react-native";
+import React,{useEffect, useRef, useState} from "react";
+import { View,Text, Button, Alert } from "react-native";
 import { styles } from "./styles";
 import {Card,NumberContainer} from "../../components/index"
 import colors from "../../constants/colors";
@@ -16,8 +16,37 @@ const generateRandomNumber = (min, max, exclude) => {
   }
 
 }
-const Game = ({selectedNumber}) =>{
+const Game = ({selectedNumber,onGameOver}) =>{
 const [currentGuess, setcurrentGuess] = useState(generateRandomNumber(1, 100, selectedNumber));
+const [rounds, setrounds] = useState(0)
+const currentLow = useRef(1)
+const currentHigh = useRef(100)
+
+const onHandleNextGuess = (direccion) =>{
+ if(
+    direccion === "lower" && currentGuess < selectedNumber || 
+    direccion === "greater" && currentGuess > selectedNumber
+ ){
+   Alert.alert("no mientas", "sabes que es un error", [{text:"perdon" , style:"cancel"}])
+
+   return
+ }
+    if(direccion === "lower"){
+      currentHigh.current = currentGuess
+    } else{
+      currentLow.current = currentGuess
+    }
+
+    const nextNumber = generateRandomNumber(currentLow.current,currentHigh.current,currentGuess)
+    setcurrentGuess(nextNumber)
+    setrounds(currentRounds => currentRounds + 1)
+}
+useEffect(()=>{
+          if(currentGuess === selectedNumber){
+            onGameOver(rounds)
+          }
+},[currentGuess,selectedNumber, onGameOver])
+
  return(
     <View style={styles.container}>
         <Card style={styles.content}>
@@ -26,11 +55,11 @@ const [currentGuess, setcurrentGuess] = useState(generateRandomNumber(1, 100, se
                 <View style={styles.ContainerButton}>
                 <Button 
                    title="lower"
-                    onPress={() => null}
+                    onPress={()=>onHandleNextGuess("lower")}
                    color={colors.primary} />
                 <Button 
                 title="greater"
-                onPress={() => null}
+                onPress={() =>onHandleNextGuess("greater")}
                 color={colors.primary}
                 />
             </View>
